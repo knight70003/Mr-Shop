@@ -153,10 +153,20 @@ Mr.Shop includes a responsive conversational interface with:
 * Responsive mobile layout
 
 ---
+## Product Preview
 
-# Architecture
+### Mr.Shop Interface
 
-![alt text](image.png)
+![Mr.Shop UI](screenshots/home_UI.png)
+
+### Context-Aware AI Response
+
+![Mr.Shop Result](screenshots/result.png)
+
+### System Architecture
+
+![Mr.Shop Architecture](screenshots/architecture.png)
+
 
 ---
 

@@ -1,10 +1,3 @@
-Bilkul. Is baar README ko **portfolio-project wali generic README** nahi rakhenge. It should read like an actual engineering project: clear product positioning, architecture, design decisions, API, testing, configuration, limitations, and roadmap. GitHub itself recommends README content that explains what the project does, why it is useful, and how to get started; Google similarly emphasizes purpose, usage, status, and reproducible commands. ([GitHub Docs][1])
-
-**Important:** main sirf wahi claims rakh raha hoon jo tumhare current project mein actually implemented hain—fake production claims, fake metrics, fake deployment, etc. nahi.
-
-Tumhari root directory mein **`README.md`** banao aur ye complete content paste karo:
-
-````markdown
 # Mr.Shop
 
 ### Context-Aware Conversational AI for Fashion & Shopping
@@ -156,7 +149,59 @@ Mr.Shop includes a responsive conversational interface with:
 
 # Architecture
 
-![alt text](image.png)
+                         ┌─────────────────────┐
+                         │       User          │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │     Web Client      │
+                         │   HTML / CSS / JS   │
+                         └──────────┬──────────┘
+                                    │
+                                  POST
+                                  /chat
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │      FastAPI        │
+                         │     API Layer       │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Intent Classifier   │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Conversation Memory │
+                         │                     │
+                         │ • History           │
+                         │ • Wardrobe          │
+                         │ • Preferences       │
+                         │ • Budget             │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Conversation Router │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │    LLM Service      │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │     Groq LLM        │
+                         └──────────┬──────────┘
+                                    │
+                                    ▼
+                         ┌─────────────────────┐
+                         │ Contextual Response │
+                         └─────────────────────┘
 
 ---
 

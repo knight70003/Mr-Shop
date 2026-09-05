@@ -1,0 +1,629 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="Mr.Shop — AI-powered personal styling and shopping assistant."
+    >
+
+    <title>Mr.Shop | Personal Style Assistant</title>
+
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+
+<body>
+
+    <div class="app-shell">
+
+        <!-- ================= SIDEBAR ================= -->
+
+        <aside class="sidebar">
+
+            <div class="sidebar-top">
+
+                <!-- Brand -->
+                <a href="#" class="brand" aria-label="Mr.Shop Home">
+
+                    <div class="brand-mark">
+                        M
+                    </div>
+
+                    <div class="brand-copy">
+                        <span class="brand-name">Mr.Shop</span>
+                        <span class="brand-subtitle">
+                            Personal style AI
+                        </span>
+                    </div>
+
+                </a>
+
+
+                <!-- New Chat -->
+                <button
+                    class="new-chat-btn"
+                    type="button"
+                    onclick="startNewChat()"
+                >
+                    <span class="new-chat-icon">+</span>
+                    <span>New conversation</span>
+                </button>
+
+
+                <!-- Navigation -->
+                <nav class="sidebar-nav" aria-label="Conversation navigation">
+
+                    <div class="nav-label">
+                        WORKSPACE
+                    </div>
+
+                    <button class="nav-item active" type="button">
+                        <span class="nav-icon">✦</span>
+                        <span>Style assistant</span>
+                    </button>
+
+                    <button class="nav-item" type="button">
+                        <span class="nav-icon">◇</span>
+                        <span>Wardrobe</span>
+                    </button>
+
+                    <button class="nav-item" type="button">
+                        <span class="nav-icon">○</span>
+                        <span>Appointments</span>
+                    </button>
+
+                </nav>
+
+
+                <!-- Recent Conversations -->
+                <div class="recent-section">
+
+                    <div class="nav-label">
+                        RECENT
+                    </div>
+
+                    <button
+                        class="conversation active"
+                        type="button"
+                    >
+
+                        <div class="conversation-icon">
+                            ✦
+                        </div>
+
+                        <div class="conversation-info">
+
+                            <span class="conversation-title">
+                                Style consultation
+                            </span>
+
+                            <span class="conversation-time">
+                                Just now
+                            </span>
+
+                        </div>
+
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- Sidebar Footer -->
+            <div class="sidebar-footer">
+
+                <div class="system-status">
+
+                    <span class="status-dot"></span>
+
+                    <div class="status-copy">
+                        <span>AI assistant</span>
+                        <small>Operational</small>
+                    </div>
+
+                </div>
+
+                <button
+                    class="profile-button"
+                    type="button"
+                    aria-label="Open profile"
+                >
+                    <span class="profile-avatar">U</span>
+                </button>
+
+            </div>
+
+        </aside>
+
+
+        <!-- ================= MAIN CHAT ================= -->
+
+        <main class="chat-area">
+
+            <!-- Header -->
+            <header class="chat-header">
+
+                <div class="mobile-brand">
+
+                    <div class="brand-mark">
+                        M
+                    </div>
+
+                    <span>Mr.Shop</span>
+
+                </div>
+
+
+                <div class="assistant-heading">
+
+                    <div class="assistant-avatar">
+                        ✦
+                    </div>
+
+                    <div class="header-title">
+
+                        <h1>
+                            Personal Style Assistant
+                        </h1>
+
+                        <div class="header-meta">
+
+                            <span class="online-indicator"></span>
+
+                            <span>
+                                Online
+                            </span>
+
+                            <span class="meta-divider">
+                                ·
+                            </span>
+
+                            <span>
+                                Context-aware
+                            </span>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <div class="header-actions">
+
+                    <button
+                        class="icon-button"
+                        type="button"
+                        title="Search conversation"
+                        aria-label="Search conversation"
+                    >
+                        ⌕
+                    </button>
+
+                    <button
+                        class="header-btn"
+                        type="button"
+                        onclick="clearConversation()"
+                    >
+                        Clear
+                    </button>
+
+                </div>
+
+            </header>
+
+
+            <!-- ================= MESSAGE AREA ================= -->
+
+            <section
+                class="messages"
+                id="messages"
+                aria-live="polite"
+            >
+
+                <!-- Welcome -->
+                <div
+                    class="welcome-state"
+                    id="welcomeState"
+                >
+
+                    <div class="welcome-icon">
+                        ✦
+                    </div>
+
+                    <span class="welcome-eyebrow">
+                        YOUR PERSONAL STYLE ASSISTANT
+                    </span>
+
+                    <h2>
+                        What are we styling today?
+                    </h2>
+
+                    <p>
+                        Tell me what you own, what you're looking for,
+                        or where you're going. I'll keep the relevant
+                        context as we go.
+                    </p>
+
+
+                    <!-- Suggestions -->
+
+                    <div class="suggestions">
+
+                        <button
+                            class="suggestion-card"
+                            type="button"
+                            onclick="useSuggestion('I have black jeans. Suggest an outfit.')"
+                        >
+
+                            <span class="suggestion-icon">
+                                ✦
+                            </span>
+
+                            <span class="suggestion-content">
+
+                                <strong>
+                                    Style an outfit
+                                </strong>
+
+                                <small>
+                                    Build a look from my wardrobe
+                                </small>
+
+                            </span>
+
+                            <span class="suggestion-arrow">
+                                →
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="suggestion-card"
+                            type="button"
+                            onclick="useSuggestion('Recommend white sneakers under 3000.')"
+                        >
+
+                            <span class="suggestion-icon">
+                                ◈
+                            </span>
+
+                            <span class="suggestion-content">
+
+                                <strong>
+                                    Find something to buy
+                                </strong>
+
+                                <small>
+                                    Discover products within my budget
+                                </small>
+
+                            </span>
+
+                            <span class="suggestion-arrow">
+                                →
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="suggestion-card"
+                            type="button"
+                            onclick="useSuggestion('I want to upload a shirt to my wardrobe.')"
+                        >
+
+                            <span class="suggestion-icon">
+                                □
+                            </span>
+
+                            <span class="suggestion-content">
+
+                                <strong>
+                                    Add to wardrobe
+                                </strong>
+
+                                <small>
+                                    Keep my clothing collection updated
+                                </small>
+
+                            </span>
+
+                            <span class="suggestion-arrow">
+                                →
+                            </span>
+
+                        </button>
+
+
+                        <button
+                            class="suggestion-card"
+                            type="button"
+                            onclick="useSuggestion('I want to book a stylist consultation.')"
+                        >
+
+                            <span class="suggestion-icon">
+                                ○
+                            </span>
+
+                            <span class="suggestion-content">
+
+                                <strong>
+                                    Book a stylist
+                                </strong>
+
+                                <small>
+                                    Get help from a style expert
+                                </small>
+
+                            </span>
+
+                            <span class="suggestion-arrow">
+                                →
+                            </span>
+
+                        </button>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- ================= COMPOSER ================= -->
+
+            <footer class="composer-wrapper">
+
+                <div class="composer">
+
+                    <button
+                        class="attach-btn"
+                        type="button"
+                        title="Add wardrobe item"
+                        aria-label="Add wardrobe item"
+                    >
+                        +
+                    </button>
+
+
+                    <textarea
+                        id="messageInput"
+                        rows="1"
+                        maxlength="2000"
+                        placeholder="Ask about an outfit, product, or your wardrobe..."
+                        aria-label="Message Mr.Shop"
+                        onkeydown="handleKeyDown(event)"
+                    ></textarea>
+
+
+                    <button
+                        class="send-btn"
+                        id="sendButton"
+                        type="button"
+                        onclick="sendMessage()"
+                        title="Send message"
+                        aria-label="Send message"
+                    >
+                        ↑
+                    </button>
+
+                </div>
+
+                <div class="composer-footer">
+
+                    <span>
+                        Enter to send
+                    </span>
+
+                    <span>
+                        Mr.Shop AI may occasionally make mistakes.
+                    </span>
+
+                </div>
+
+            </footer>
+
+        </main>
+
+
+        <!-- ================= CONTEXT PANEL ================= -->
+
+        <aside class="context-panel">
+
+            <header class="context-header">
+
+                <div>
+
+                    <span class="eyebrow">
+                        LIVE CONTEXT
+                    </span>
+
+                    <h2>
+                        Conversation state
+                    </h2>
+
+                </div>
+
+                <span
+                    class="live-indicator"
+                    title="Context memory active"
+                ></span>
+
+            </header>
+
+
+            <!-- Current Intent -->
+
+            <section class="context-card intent-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="card-label">
+                            CURRENT INTENT
+                        </span>
+
+                        <span class="card-description">
+                            Detected from latest message
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="intent-badge"
+                    id="intentBadge"
+                >
+                    WAITING
+                </div>
+
+            </section>
+
+
+            <!-- Wardrobe -->
+
+            <section class="context-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="card-label">
+                            WARDROBE
+                        </span>
+
+                        <span class="card-description">
+                            Items mentioned in conversation
+                        </span>
+
+                    </div>
+
+                    <span
+                        class="count"
+                        id="wardrobeCount"
+                    >
+                        0
+                    </span>
+
+                </div>
+
+
+                <div
+                    class="context-list"
+                    id="wardrobeList"
+                >
+
+                    <div class="empty-context">
+                        No wardrobe items yet
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- Preferences -->
+
+            <section class="context-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="card-label">
+                            PREFERENCES
+                        </span>
+
+                        <span class="card-description">
+                            Detected style preferences
+                        </span>
+
+                    </div>
+
+                </div>
+
+
+                <div class="preference-row">
+
+                    <span class="preference-label">
+                        Preferred color
+                    </span>
+
+                    <strong id="colorPreference">
+                        —
+                    </strong>
+
+                </div>
+
+            </section>
+
+
+            <!-- Budget -->
+
+            <section class="context-card budget-card">
+
+                <div class="card-heading">
+
+                    <div>
+
+                        <span class="card-label">
+                            BUDGET
+                        </span>
+
+                        <span class="card-description">
+                            Current purchase constraint
+                        </span>
+
+                    </div>
+
+                </div>
+
+                <div
+                    class="budget-value"
+                    id="budgetValue"
+                >
+                    —
+                </div>
+
+            </section>
+
+
+            <!-- Memory -->
+
+            <section class="memory-footer">
+
+                <div class="memory-icon">
+                    ✦
+                </div>
+
+                <div class="memory-content">
+
+                    <strong>
+                        Context memory active
+                    </strong>
+
+                    <p>
+                        Relevant details from this session
+                        are retained to improve responses.
+                    </p>
+
+                </div>
+
+            </section>
+
+        </aside>
+
+    </div>
+
+
+    <script src="/static/script.js"></script>
+
+</body>
+</html>

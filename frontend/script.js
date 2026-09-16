@@ -88,7 +88,7 @@ async function sendMessage() {
             formData.append("message", message);
 
             response = await fetch(
-                "http://127.0.0.1:8000/analyze-image",
+                "/analyze-image",
                 {
                     method: "POST",
                     body: formData
@@ -1179,4 +1179,15 @@ if (wardrobeImageInput) {
 
         console.log("IMAGE SELECTED:", file);
     });
+}
+function removeSelectedImage() {
+
+    selectedImageFile = null;
+
+    previewImage.src = "";
+    imagePreview.style.display = "none";
+
+    wardrobeImageInput.value = "";
+
+    console.log("IMAGE REMOVED");
 }

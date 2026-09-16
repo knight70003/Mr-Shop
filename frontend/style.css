@@ -1463,3 +1463,23 @@ a {
 .message-row.user .message-bubble {
     max-width: 70%;
 }
+#imagePreview {
+    position: relative;
+    display: inline-block;
+    margin-right: 8px;
+}
+
+#removeImageBtn {
+    position: absolute;
+    top: -8px;
+    right: -8px;
+    width: 22px;
+    height: 22px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 16px;
+    line-height: 20px;
+    padding: 0;
+    z-index: 10;
+}

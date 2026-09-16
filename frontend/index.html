@@ -386,9 +386,24 @@
                         type="button"
                         title="Add wardrobe item"
                         aria-label="Add wardrobe item"
+
+                    onclick="document.getElementById('wardrobeImageInput').click()"
                     >
                         +
                     </button>
+                    <input
+                        type="file"
+                        id = "wardrobeImageInput"
+                        accept="image/*"
+                        style="display: none;"
+                    >
+                    <div id="imagePreview" style="display:none;">
+                    <img
+                    id="previewImage"
+                    alt="Selected image"
+                    style="max-width:100px; max-height:100px; border-radius:10px;"
+                    >
+                    </div>
 
 
                     <textarea

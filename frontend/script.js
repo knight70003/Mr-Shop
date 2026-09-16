@@ -63,21 +63,13 @@ async function sendMessage() {
     ----------------------------------------- */
 
     addMessage(message, "user");
-
     messageInput.value = "";
-
     autoResizeTextarea();
-
     setLoading(true);
-
-
     /* -----------------------------------------
        AI typing indicator
     ----------------------------------------- */
-
     const typingElement = addTypingIndicator();
-
-
     try {
 
         const response = await fetch(API_URL, {
@@ -93,7 +85,6 @@ async function sendMessage() {
             })
 
         });
-
 
         /* -----------------------------------------
            HTTP error
@@ -1088,3 +1079,53 @@ document.addEventListener(
 
     }
 );
+
+function addImageMessage(file) {
+    console.log("IMAGE FUNCTION CALLED", file);
+    const messageRow = document.createElement("div");
+    messageRow.className = "message-row user";
+
+    const avatar = document.createElement("div");
+    avatar.className = "message-avatar";
+    avatar.textContent = "U";
+
+    const messageContent = document.createElement("div");
+    messageContent.className = "message-content";
+
+    const bubble = document.createElement("div");
+    bubble.className = "message-bubble";
+
+    const image = document.createElement("img");
+    image.src = URL.createObjectURL(file);
+    image.alt = "Uploaded image";
+    image.style.maxWidth = "300px";
+    image.style.borderRadius = "12px";
+    image.style.display = "block";
+
+    bubble.appendChild(image);
+    messageContent.appendChild(bubble);
+
+    messageRow.appendChild(avatar);
+    messageRow.appendChild(messageContent);
+
+    messages.appendChild(messageRow);
+
+    scrollToBottom();
+}
+const wardrobeImageInput = document.getElementById("wardrobeImageInput");
+const imagePreview = document.getElementById("imagePreview");
+const previewImage = document.getElementById("previewImage");
+
+if (wardrobeImageInput) {
+    wardrobeImageInput.addEventListener("change", function () {
+
+        const file = this.files[0];
+
+        if (file) {
+            previewImage.src = URL.createObjectURL(file);
+            imagePreview.style.display = "block";
+
+            console.log("IMAGE SELECTED:", file);
+        }
+    });
+}

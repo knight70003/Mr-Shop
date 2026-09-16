@@ -41,7 +41,6 @@ async function sendMessage() {
         return;
     }
 
-
     /* -----------------------------------------
        Start conversation
     ----------------------------------------- */
@@ -57,37 +56,71 @@ async function sendMessage() {
         }
     }
 
-
     /* -----------------------------------------
        Add user message
     ----------------------------------------- */
 
     addMessage(message, "user");
     messageInput.value = "";
+
     autoResizeTextarea();
     setLoading(true);
+
     /* -----------------------------------------
        AI typing indicator
     ----------------------------------------- */
+
     const typingElement = addTypingIndicator();
+
     try {
 
-        const response = await fetch(API_URL, {
-
-            method: "POST",
-
-            headers: {
-                "Content-Type": "application/json"
-            },
-
-            body: JSON.stringify({
-                message: message
-            })
-
-        });
+        let response;
 
         /* -----------------------------------------
-           HTTP error
+           IMAGE + MESSAGE
+        ----------------------------------------- */
+
+        if (selectedImageFile) {
+
+            const formData = new FormData();
+
+            formData.append("file", selectedImageFile);
+            formData.append("message", message);
+
+            response = await fetch(
+                "http://127.0.0.1:8000/analyze-image",
+                {
+                    method: "POST",
+                    body: formData
+                }
+            );
+
+        }
+
+        /* -----------------------------------------
+           TEXT ONLY
+        ----------------------------------------- */
+
+        else {
+
+            response = await fetch(API_URL, {
+
+                method: "POST",
+
+                headers: {
+                    "Content-Type": "application/json"
+                },
+
+                body: JSON.stringify({
+                    message: message
+                })
+
+            });
+
+        }
+
+        /* -----------------------------------------
+           HTTP ERROR
         ----------------------------------------- */
 
         if (!response.ok) {
@@ -111,49 +144,70 @@ async function sendMessage() {
             throw new Error(errorMessage);
         }
 
-
         /* -----------------------------------------
            Parse response
         ----------------------------------------- */
 
         const data = await response.json();
 
-
-        /* -----------------------------------------
-           Remove typing indicator
-        ----------------------------------------- */
-
         typingElement.remove();
 
-
         /* -----------------------------------------
-           Validate response
+           IMAGE RESPONSE
         ----------------------------------------- */
 
-        if (!data.response) {
+        if (selectedImageFile) {
 
-            throw new Error(
-                "The AI returned an empty response."
+            let result = data;
+
+            if (typeof result === "string") {
+                result = JSON.parse(result);
+            }
+
+            addMessage(
+                result.suggested_outfit ||
+                "I analyzed the image successfully.",
+                "assistant"
             );
+
+            /* Clear image AFTER processing */
+
+            if (imagePreview) {
+                imagePreview.style.display = "none";
+            }
+
+            if (previewImage) {
+                previewImage.src = "";
+            }
+
+            selectedImageFile = null;
+
+            if (wardrobeImageInput) {
+                wardrobeImageInput.value = "";
+            }
+
         }
 
-
         /* -----------------------------------------
-           Add assistant response
+           NORMAL CHAT RESPONSE
         ----------------------------------------- */
 
-        addMessage(
-            data.response,
-            "assistant"
-        );
+        else {
 
+            if (!data.response) {
 
-        /* -----------------------------------------
-           Update live context
-        ----------------------------------------- */
+                throw new Error(
+                    "The AI returned an empty response."
+                );
+            }
 
-        updateContext(data);
+            addMessage(
+                data.response,
+                "assistant"
+            );
 
+            updateContext(data);
+        }
 
     } catch (error) {
 
@@ -162,22 +216,15 @@ async function sendMessage() {
             error
         );
 
-
-        /* Remove typing indicator */
-
         if (typingElement) {
             typingElement.remove();
         }
-
-
-        /* Show user-friendly error */
 
         addMessage(
             getFriendlyErrorMessage(error),
             "assistant",
             true
         );
-
 
     } finally {
 
@@ -186,7 +233,6 @@ async function sendMessage() {
         messageInput.focus();
     }
 }
-
 
 /* =========================================================
    FRIENDLY ERROR MESSAGE
@@ -1112,6 +1158,7 @@ function addImageMessage(file) {
 
     scrollToBottom();
 }
+let selectedImageFile = null;
 const wardrobeImageInput = document.getElementById("wardrobeImageInput");
 const imagePreview = document.getElementById("imagePreview");
 const previewImage = document.getElementById("previewImage");
@@ -1121,11 +1168,15 @@ if (wardrobeImageInput) {
 
         const file = this.files[0];
 
-        if (file) {
-            previewImage.src = URL.createObjectURL(file);
-            imagePreview.style.display = "block";
-
-            console.log("IMAGE SELECTED:", file);
+        if (!file) {
+            return;
         }
+        selectedImageFile = file
+
+        // Show selected image in preview
+        previewImage.src = URL.createObjectURL(file);
+        imagePreview.style.display = "block";
+
+        console.log("IMAGE SELECTED:", file);
     });
 }

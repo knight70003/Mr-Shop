@@ -381,29 +381,25 @@
 
                 <div class="composer">
 
-                    <button
-                        class="attach-btn"
-                        type="button"
-                        title="Add wardrobe item"
-                        aria-label="Add wardrobe item"
-
+                <button
+                    class="attach-btn"
+                    type="button"
                     onclick="document.getElementById('wardrobeImageInput').click()"
-                    >
-                        +
-                    </button>
+                >+
+                </button>
                     <input
-                        type="file"
-                        id = "wardrobeImageInput"
-                        accept="image/*"
-                        style="display: none;"
-                    >
-                    <div id="imagePreview" style="display:none;">
+                    type="file"
+                    id="wardrobeImageInput"
+                    accept="image/*"
+                    hidden
+                >
+                <div id="imagePreview" style="display:none;">
                     <img
                     id="previewImage"
                     alt="Selected image"
                     style="max-width:100px; max-height:100px; border-radius:10px;"
-                    >
-                    </div>
+                >
+                </div>
 
 
                     <textarea
